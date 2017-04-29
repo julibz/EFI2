@@ -1,0 +1,50 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block stylesheets %}
+    <link href="{{asset('asset/css/login.css') }}" rel="stylesheet">
+{% endblock %}
+{% if error %}
+    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+{% endif %}
+
+<div class="login">
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br><br>
+    <br>
+    <br>
+
+
+
+
+    <h1>Login</h1>
+
+    <h5><a href="/register">Registrarse</a></h5>
+    <form action="{{ path("fos_user_security_check") }}" method="post">
+
+        {% if csrf_token %}
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+        {% endif %}
+
+        <label class="perfil" for="username">{{ 'security.login.username'|trans }}</label>
+        <input type="text" class="form-control" id="username" name="_username"  value="{{ last_username }}" placeholder="Username" required="required" />
+        <label class="perfil" for="password">{{ 'security.login.password'|trans }}</label>
+        <input type="password" class="form-control" name="_password" placeholder="Password" required="required" />
+        <div class="checkbox">
+            <label class="perfil"  for="remember_me"> <input type="checkbox" id="remember_me" name="_remember_me" value="on" />{{ 'security.login.remember_me'|trans }}</label>
+        </div>
+        <button type="submit" id="_submit" name="_submit"  value="{{ 'security.login.submit'|trans }}" class="btn btn-primary btn-block btn-large">Entrar</button>
+
+
+        <ul>
+            <li>
+                <a class="perfil heading bold style-message" href="{{ path('fos_user_resetting_request') }}">Olvidaste tu contraseña? haz click aqui</a>
+            </li>
+        </ul>
+    </form>
+</div>
+

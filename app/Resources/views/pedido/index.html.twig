@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="container">
+    {% if is_granted("ROLE_ADMIN") %}
+
+            <h1>Lista de pedidos </h1>
+            <input type="search" class="light-table-filter" data-table="order-table" placeholder="Buscar">
+            <table class="table order-table table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Documento</th>
+                        <th>Modelo</th>
+                        <th>Color</th>
+                        <th>Fecha pedido</th>
+                        <th>Entrega estimada</th>
+                        <th>Importe</th>
+                        <th>Observacion</th>
+                        <th>Cliente</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pedido in pedidos %}
+                        <tr>
+                            {#<td><a href="{{ path('pedido_show', { 'id': pedido.id }) }}">{{ pedido.id }}</a></td>#}
+                            <td>{{  pedido.nombreyapellido }}</td>
+                            <td>{{  pedido.documento }}</td>
+                            <td>{{  pedido.modelo }}</td>
+                            <td>{{ pedido.color }}</td>
+                            <td>{% if pedido.createAt %}{{ pedido.createAt|date('d-m-Y') }}{% endif %}</td>
+                            <td>{% if pedido.fechaEntregaEstim %}{{ pedido.fechaEntregaEstim|date('d-m-Y') }}{% endif %}</td>
+                            <td>{{ pedido.importe }}</td>
+                            <td>{{ pedido.observacion }}</td>
+                            <td>{{  pedido.user }}</td>
+                            <td>
+                                <ul>
+                                    {#<li>#}
+                                        <a href="{{ path('pedido_show', { 'id': pedido.id }) }}">Show</a>
+                                    {#</li>#}
+                                    {#<li>#}
+                                        <a href="{{ path('pedido_edit', { 'id': pedido.id }) }}">Edit</a>
+                                    {#</li>#}
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+    {% else %}
+
+        <h1>Lista de sus pedidos </h1>
+        <input type="search" class="light-table-filter" data-table="order-table" placeholder="Buscar">
+        <table class="table order-table table">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Documento</th>
+                <th>Mail</th>
+                <th>Modelo</th>
+                <th>Color</th>
+                <th>Fecha pedido</th>
+                <th>Entrega estimada</th>
+                <th>Importe</th>
+                <th>Observacion</th>
+                <th>Cliente</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for pedido in pedidos %}
+                {% if pedido.user == app.user.username %}
+                    <tr>
+                        {#<td><a href="{{ path('pedido_show', { 'id': pedido.id }) }}">{{ pedido.id }}</a></td>#}
+                        <td>{{  pedido.nombreyapellido }}</td>
+                        <td>{{  pedido.documento }}</td>
+                        <td>{{  pedido.mail }}</td>
+                        <td>{{  pedido.modelo }}</td>
+                        <td>{{ pedido.color }}</td>
+                        <td>{% if pedido.createAt %}{{ pedido.createAt|date('d-m-Y') }}{% endif %}</td>
+                        <td>{% if pedido.fechaEntregaEstim %}{{ pedido.fechaEntregaEstim|date('d-m-Y') }}{% endif %}</td>
+                        <td>{{ pedido.importe }}</td>
+                        <td>{{ pedido.observacion }}</td>
+                        <td>{{  pedido.user }}</td>
+                        <td>
+                            <ul>
+                                {#<li>#}
+                                <a href="{{ path('pedido_show', { 'id': pedido.id }) }}">Show</a>
+                                {#</li>#}
+                                {#<li>#}
+                                <a href="{{ path('pedido_edit', { 'id': pedido.id }) }}">Edit</a>
+                                {#</li>#}
+                            </ul>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+
+
+
+        </div>
+    {% endif %}
+
+    {#<ul>#}
+        {#<li>#}
+            {#<a href="{{ path('pedido_new') }}">Create a new pedido</a>#}
+        {#</li>#}
+    {#</ul>#}
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% block body %}
+        <div class="container">
+        <br>
+        <br>
+        <br><br>
+        <a href="/profile/edit">Editar perfil</a>
+
+        {% include "FOSUserBundle:Profile:show_content.html.twig" %}
+    </div>
+{% endblock body %}

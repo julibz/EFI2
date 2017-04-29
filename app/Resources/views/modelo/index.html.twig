@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="{{asset('asset/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{asset('asset/vendor/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{asset('asset/css/agency.css') }}" rel="stylesheet">
+    <link href="{{asset('asset/css/otros-estilos.min.css') }}" rel="stylesheet">
+    <link href="{{asset('asset/css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{asset('asset/css/cards.css') }}" rel="stylesheet">
+    <link href="{{asset('asset/css/tabs.css') }}" rel="stylesheet">
+
+
+{% endblock %}
+
+
+{% block body %}
+    <div class="fondonegro">
+        <br>
+        <br>
+        <br>
+        <br>
+        <div id="tabs">
+            <input type="radio" name="tabs" id="toggle-tab1" checked="checked" />
+            <label for="toggle-tab1">Autos</label>
+
+            <input type="radio" name="tabs" id="toggle-tab2" />
+            <label for="toggle-tab2">PickUps</label>
+
+
+            <div id="tab1" class="tab">
+                {% for modelo in modelos %}
+                    {% if modelo.categoriaModelo=="Auto" %}
+
+                        <div class="wrap">
+                            <div class=""><img src="{{asset('asset/img/'~ modelo.imagenModelo) }} "></div>
+                            <div class="">
+                                <br>
+                                <h4 >{{ modelo.nombreModelo }}</h4>
+                                <p >{{ modelo.descripcionModelo }} </p>
+                                <h5>$ {{ modelo.precio }}</h5>
+                                {% if is_granted("ROLE_ADMIN") %}
+                                    <ul>
+                                        <li>
+                                            <a href="{{ path('modelo_show', { 'id': modelo.id }) }}">show</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('modelo_edit', { 'id': modelo.id }) }}">edit</a>
+                                        </li>
+                                    </ul>
+                                {% endif %}
+                                <a href="{{ path('modelo_show', { 'id': modelo.id }) }} class="btn">Ver mas</a>
+                                <br>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <div id="tab2" class="tab">
+                {% for modelo in modelos %}
+                    {% if modelo.categoriaModelo=="PickUp" %}
+
+                        <div class="wrap">
+                            <div class=""><img src="{{asset('asset/img/'~ modelo.imagenModelo) }}"></div>
+                            <div class="">
+                                <br>
+                                <h4 >{{ modelo.nombreModelo }}</h4>
+                                <p >{{ modelo.descripcionModelo }} </p>
+                                <h5>$ {{ modelo.precio }}</h5>
+                                {% if is_granted("ROLE_ADMIN") %}
+                                    <ul>
+                                        <li>
+                                            <a href="{{ path('modelo_show', { 'id': modelo.id }) }}">show</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ path('modelo_edit', { 'id': modelo.id }) }}">edit</a>
+                                        </li>
+                                    </ul>
+                                {% endif %}
+                                <a href="{{ path('modelo_show', { 'id': modelo.id }) }} class="btn">Ver mas</a>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <br>
+            <br>
+            {% if is_granted("ROLE_ADMIN") %}
+                <ul>
+                    <li>
+                        <a class="negro" href="{{ path('modelo_new') }}">Create a new modelo</a>
+                    </li>
+                </ul>
+            {% endif %}
+        </div>
+
+
+
+
+
+
+
+
+    </div>
+{% endblock %}

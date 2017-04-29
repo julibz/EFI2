@@ -1,0 +1,102 @@
+{% block head %}
+    <meta name="viewport" content="initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+    <style>
+        .item.active{color:red;}
+        .item.desactive{color:blue;}
+    </style>
+{% endblock head %}
+
+{% block body %}
+
+    <style>
+        /* Always set the map height explicitly to define the size of the div
+         * element that contains the map. */
+        #map {
+            height: 100%;
+        }
+        /* Optional: Makes the sample page fill the window. */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+    <br>
+    <ul class="list">
+        <input id="buscador" type="text" name="cuil">
+        <input class="caca" type="submit" value="Buscar">
+        {% for valor in valores %}
+            <li class="item" data-cuit="{{ valor.cuit }}"> {{ valor.nombre }}</li>
+        {% endfor %}
+
+    </ul>
+
+    <script type="text/javascript">
+
+            $(document).ready(function(){
+                var lat=0;
+                var lng=0;
+                $('.caca').click(function(){
+                    var asd=document.getElementById("buscador").value;
+                    console.log(asd);
+                    $.getJSON('https://soa.afip.gob.ar/sr-padron/v2/persona/'+asd,function(data){
+//                        alert('Fecha inscripcion: '+ data.data.fechaInscripcion +' Nombre: '+ data.data.nombre);
+                        console.log(data.data.domicilioFiscal.direccion);
+                        $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=1439+ALVEAR+'+'RioCuarto+'+',&key=AIzaSyAig4sYd_yLnoopc6CTmjoKY-wH6cmzXYw',function(data2) {
+                            var lat=data2.results[0].geometry.location.lat;
+                            var lng=data2.results[0].geometry.location.lng;
+//                            console.log(resultados.formatted_address);
+                            console.log(lat,lng);
+
+                            initMap(lat,lng);
+                        });
+                    });
+                });
+
+
+                $('.item').click(function(){
+                    $.getJSON('https://soa.afip.gob.ar/sr-padron/v2/persona/'+$(this).data('cuit'),function(data){
+                        alert('Fecha inscripcion: '+ data.data.fechaInscripcion
+                        +' Nombre: '+ data.data.nombre);
+                    });
+//                    attr('data-cuit');
+                    $('.item').removeClass('active');
+                    $(this).addClass('active');
+                });
+
+
+            });
+
+
+
+
+        //hacer un buscador, poner un imput para el cuit. que busque en la afip
+        //para el popup: jquery.ui modai
+        //ver en el mapa
+
+    </script>
+    <div id="map"></div>
+    <script>
+
+        var map;
+        function initMap(lat,lng) {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: lat, lng: lng},
+                zoom: 15
+            });
+            var marker = new google.maps.Marker({
+                position: {lat: lat, lng: lng},
+                map: map
+            });
+            marker.setMap(map);
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAig4sYd_yLnoopc6CTmjoKY-wH6cmzXYw&callback=initMap"
+            async defer>
+
+    </script>
+
+{% endblock body %}

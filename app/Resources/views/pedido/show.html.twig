@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <br>
+    <br>
+    <br>
+    <br>
+    {% if pedido.user == app.user.username %}
+
+    {% endif %}
+    <div class="container">
+        <h1>Pedido</h1>
+        <table>
+            {% if pedido.user == app.user.username or is_granted("ROLE_ADMIN") %}
+                <tbody>
+                {% if is_granted("ROLE_ADMIN") %}
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ pedido.id }}</td>
+                    </tr>
+                {% endif %}
+                    <tr>
+                        <th>Nombre: </th>
+                        <td name="nombre">{{ pedido.nombreyapellido }}</td>
+                    </tr>
+                    <tr>
+                        <th>Documento: </th>
+                        <td name="documento">{{ pedido.documento }}</td>
+                    </tr>
+                    <tr>
+                        <th>EMail: </th>
+                        <td name="mail">{{ pedido.mail }}</td>
+                    </tr>
+                    <tr>
+                        <th>Creado:</th>
+                        <td name="creado" >{% if pedido.createAt %}{{ pedido.createAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    </tr>
+                    {#<tr>#}
+                        {#<th>Fecha pedido: </th>#}
+                        {#<td>{% if pedido.fecha %}{{ pedido.fecha|date('Y-m-d') }}{% endif %}</td>#}
+                    {#</tr>#}
+                    <tr>
+                        <th>Importe: </th>
+                        <td name="importe">{{ pedido.importe }}</td>
+                    </tr>
+                    <tr>
+                        <th>Observacion: </th>
+                        <td name="observacion">{{ pedido.observacion }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha de entrega: </th>
+                        <td name="fechadeentrega">{% if pedido.fechaEntregaEstim %}{{ pedido.fechaEntregaEstim|date('Y-m-d') }}{% endif %}</td>
+                    </tr>
+                    <tr>
+                        <th>Modelo: </th>
+                        <td name="modelo">{{ pedido.modelo }}</td>
+                    </tr>
+                    <tr>
+                        <th>Color: </th>
+                        <td name="color">{{ pedido.color }}</td>
+                    </tr>
+                </tbody>
+
+            {% else %}
+                <h3>No tiene permiso para ver este contenido</h3>
+            {% endif %}
+        </table>
+        <ul>
+            {% if is_granted("ROLE_ADMIN") %}
+                <li>
+                    <a href="{{ path('pedido_index') }}">Back to the list</a>
+                </li>
+
+                <li>
+                    <a href="{{ path('pedido_edit', { 'id': pedido.id }) }}">Edit</a>
+                </li>
+                <li>
+                    {{ form_start(delete_form) }}
+                    <input type="submit" value="Delete">
+                    {{ form_end(delete_form) }}
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<script src="{{ asset("asset/js/jquery.js") }}"></script>
+
+<br>
+
+<br>
+
+{{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
+
+    {{ form_widget(form)}}
+
+    <div>
+        <input class="btn btn-primary"type="submit" value="{{ 'registration.submit'|trans }}" />
+    </div>
+{{ form_end(form) }}
+{#<div class="input-group">#}
+    {#<input type="text" class="form-control" placeholder="Recipient's username" aria-describedby="basic-addon2">#}
+    {#<span class="input-group-addon" id="basic-addon2">@example.com</span>#}
+{#</div>#}
+<script>
+//    document.getElementById('fos_user_registration_form_roles_0').value= 'ROLE_ADMIN';
+//    $('#fos_user_registration_form_roles_0').hide();
+
+</script>

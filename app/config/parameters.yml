@@ -1,0 +1,14 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: consecionaria
+    database_user: root
+    database_password: root
+    mailer_transport: gmail
+    mailer_encryption: ssl
+    mailer_auth_mode: login
+    mailer_host: smtp.gmail.com
+#    mailer_user: testpp12016@gmail.com         #biblioteca@itecriocuarto.org.ar
+#    mailer_password: itecriocuarto1                           #Itec2323
+    secret: cdabf18e2ee048639329dacbc8bbd256a975004f
